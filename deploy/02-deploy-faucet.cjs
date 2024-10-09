@@ -9,9 +9,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const contract = await deployments.get("RedToken");
   const token = await ethers.getContractAt(contract.abi, contract.address);
 
-  const tokenAddress = token.address;
+  const tokenAddress = contract.address;
   const lockTime = 10;
-  const withdrawAmount = 0.5;
+  const withdrawAmount = 5;
 
   const args = [tokenAddress, lockTime, withdrawAmount];
 
@@ -32,4 +32,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   }
 };
 
-module.exports.tags = ["all", "token"];
+module.exports.tags = ["all", "faucet"];
