@@ -14,12 +14,12 @@ contract Faucet {
     event Withdrawn(uint256 amount, uint256 time);
 
     // State variables
-    uint256 private constant DECIMAL_PRECISION = 10e18;
+    uint256 private constant DECIMAL_PRECISION = 1e18;
     uint256 private constant TIME_PRECISION = 1 minutes;
     address payable private immutable i_owner;
-    IERC20 private token;
-    uint256 private s_lockTime;
-    uint256 private s_withdrawAmount;
+    IERC20 public token;
+    uint256 public s_lockTime;
+    uint256 public s_withdrawAmount;
     mapping(address => uint256) private s_nextAccessTime;
 
     // Modifiers
