@@ -45,24 +45,24 @@ const { assert, expect } = require("chai");
 
       describe("requestToken", () => {
         it("reverts if address is zero", async () => {
-          await expect(faucet.requestToken()).not.to.be.revertedWithCustomError(faucet, "Faucet__InvalidAddress");
+          await expect(faucet.requestToken(ethers.ZeroAddress)).to.be.revertedWithCustomError(faucet, "Faucet__InvalidAddress");
         });
 
         it("reverts if no balance in faucet", async () => {
-          await expect(faucet.requestToken()).to.be.revertedWithCustomError(faucet, "Faucet__InsufficientBalanceInFaucet");
+          await expect(faucet.requestToken(accounts[1])).to.be.revertedWithCustomError(faucet, "Faucet__InsufficientBalanceInFaucet");
         });
 
         it("reverts if not enough time has passed", async () => {
           await token.transfer(faucetContract.address, ethers.parseEther("100"));
 
-          await faucet.connect(accounts[1]).requestToken();
-          await expect(faucet.connect(accounts[1]).requestToken()).to.be.revertedWithCustomError(faucet, "Faucet__TimeNotPassedForWithdraw");
+          await faucet.requestToken(accounts[1]);
+          await expect(faucet.requestToken(accounts[1])).to.be.revertedWithCustomError(faucet, "Faucet__TimeNotPassedForWithdraw");
         });
 
         it("checks if token received after request ", async () => {
           await token.transfer(faucetContract.address, ethers.parseEther("100"));
 
-          await faucet.connect(accounts[1]).requestToken();
+          await faucet.requestToken(accounts[1]);
           const balanceOfAcc1 = await token.balanceOf(accounts[1]);
 
           assert.equal(balanceOfAcc1, ethers.parseEther(withdrawAmount.toString()));
