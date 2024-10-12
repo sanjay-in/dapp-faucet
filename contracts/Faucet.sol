@@ -16,7 +16,7 @@ contract Faucet {
     // State variables
     uint256 private constant DECIMAL_PRECISION = 1e18;
     uint256 private constant TIME_PRECISION = 1 minutes;
-    address payable private immutable i_owner;
+    address payable public immutable i_owner;
     IERC20 public token;
     uint256 public s_lockTime;
     uint256 public s_withdrawAmount;
@@ -43,19 +43,19 @@ contract Faucet {
     }
 
     // External Functions
-    function requestToken() external {
-        if (msg.sender == address(0)) {
+    function requestToken(address receiver) external {
+        if (receiver == address(0)) {
             revert Faucet__InvalidAddress();
         }
         if (token.balanceOf(address(this)) < s_withdrawAmount) {
             revert Faucet__InsufficientBalanceInFaucet();
         }
-        if (block.timestamp < s_nextAccessTime[msg.sender]) {
+        if (block.timestamp < s_nextAccessTime[receiver]) {
             revert Faucet__TimeNotPassedForWithdraw();
         }
 
-        s_nextAccessTime[msg.sender] = block.timestamp + s_lockTime;
-        token.transfer(msg.sender, s_withdrawAmount);
+        s_nextAccessTime[receiver] = block.timestamp + s_lockTime;
+        token.transfer(receiver, s_withdrawAmount);
     }
 
     function withdraw() external onlyOwner {
