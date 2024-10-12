@@ -7,10 +7,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
 
   const contract = await deployments.get("RedToken");
-  const token = await ethers.getContractAt(contract.abi, contract.address);
+  await ethers.getContractAt(contract.abi, contract.address);
 
   const tokenAddress = contract.address;
-  const lockTime = 10;
+  const lockTime = 3600;
   const withdrawAmount = 5;
 
   const args = [tokenAddress, lockTime, withdrawAmount];

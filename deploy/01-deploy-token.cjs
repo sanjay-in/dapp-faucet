@@ -8,7 +8,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   const cap = 100000;
   const initialSupply = 70000;
-  const blockReward = 10;
+  const blockReward = 100;
 
   const args = [cap, initialSupply, blockReward];
 
