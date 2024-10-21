@@ -43,6 +43,12 @@ contract Faucet {
     }
 
     // External Functions
+    /**
+     * @notice Checks for valid address, withdraw amount greater than total token balance,
+     * time passed for the address
+     * Maps address to next withdrawal time and transfers token
+     * @param receiver address where the token should be transfered
+     */
     function requestToken(address receiver) external {
         if (receiver == address(0)) {
             revert Faucet__InvalidAddress();
@@ -58,6 +64,11 @@ contract Faucet {
         token.transfer(receiver, s_withdrawAmount);
     }
 
+    /**
+     * @notice Checks if only owner of contract can access and valid withdrawal address
+     * Transfers remaining token to the owner of the contract
+     * Emits Withdrawn event with balance of tokens and time of transfer
+     */
     function withdraw() external onlyOwner {
         if (msg.sender == address(0)) {
             revert Faucet__InvalidAddress();
@@ -67,10 +78,20 @@ contract Faucet {
         emit Withdrawn(balance, block.timestamp);
     }
 
+    /**
+     * @notice Sets the time limit of next withdrawal
+     * Checks if only owner can call the function
+     * @param time Time in minutes
+     */
     function setLockTime(uint256 time) external onlyOwner {
         s_lockTime = time * TIME_PRECISION;
     }
 
+    /**
+     * @notice Change the amount of tokens an address can receive
+     * Checks if only owner can call the function
+     * @param amount number of tokens
+     */
     function setWithdrawAmount(uint256 amount) external onlyOwner {
         s_withdrawAmount = amount * DECIMAL_PRECISION;
     }
