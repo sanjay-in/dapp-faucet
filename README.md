@@ -18,7 +18,7 @@ RedToken faucet is an application that provides small amounts of tokens to users
 
   RDT address
 
-        0x77D87808835e6bE686289323c25ABa90039CFC4d
+        0x965f9a05A5bec56403ADeE52d5608194dB0D9d01
 
 - Enter the wallet address in the address box and click `Get Tokens` button
 - Check your wallet after transaction completed
